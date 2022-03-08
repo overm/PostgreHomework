@@ -58,8 +58,17 @@ Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-96-generic x86_64)<br>
 pavel@sshtest:~$
 
  - поставить PostgreSQL
+
+sudo apt update<br>
+sudo apt install postgresql postgresql-contrib<br>
+pg_ctlcluster 12 main start
  - зайти вторым ssh (вторая сессия)
- - запустить везде psql из под пользователя postgres
+
+sudo -u postgres psql
+ - запустить везде psql из под пользователя 
+ ![image](https://user-images.githubusercontent.com/16693077/157284091-e70e1894-6d2b-4252-bdd1-21446a6f275d.png)
+
+ sudo -u postgres psql
  - выключить auto commit
  - сделать в первой сессии новую таблицу и наполнить ее данными create table persons(id serial, first_name text, second_name text); insert into persons(first_name, second_name) values('ivan', 'ivanov'); insert into persons(first_name, second_name) values('petr', 'petrov'); commit;
  - посмотреть текущий уровень изоляции: show transaction isolation level
