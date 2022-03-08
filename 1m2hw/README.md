@@ -52,9 +52,9 @@ om@play-box:~$ yc vpc addresses list<br>
 om@play-box:~$ ssh pavel@178.154.231.59<br>
 Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-96-generic x86_64)<br>
 <br>
- * Documentation:  https://help.ubuntu.com<br>
- * Management:     https://landscape.canonical.com<br>
- * Support:        https://ubuntu.com/advantage<br>
+ Documentation:  https://help.ubuntu.com<br>
+ Management:     https://landscape.canonical.com<br>
+ Support:        https://ubuntu.com/advantage<br>
 pavel@sshtest:~$
 
  - поставить PostgreSQL
