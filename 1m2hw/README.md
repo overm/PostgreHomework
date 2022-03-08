@@ -35,11 +35,11 @@ The key's randomart image is:
 Добавил к себе:
 om@play-box:~$ ssh-add sshtest
 Identity added: sshtest (om@play-box.chilikin.pro)
-
-
  - добавить свой ssh ключ в GCE metadata
+
 При создании виртуалки указал в окошке
  - зайти удаленным ssh (первая сессия), не забывайте про ssh-add
+
 Смотрим список виртуалок:
 om@play-box:~$ yc vpc network list
 +----------------------+---------+
