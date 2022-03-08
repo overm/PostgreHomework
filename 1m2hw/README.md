@@ -6,34 +6,34 @@
 
 Добавил пользователя  ifti@yandex.ru с ролью viwer.
  - далее создать инстанс виртуальной машины Compute Engine с дефолтными параметрами
-Создал через веб-морду sshtest
-Установил и заргистрировал терминал yc. Запросил на будущее NAT как сервис, если не надут - сделаю отдельную машину, чтобы не плодить внишние айпишники.
+Создал через веб-морду sshtest<br>
+Установил и заргистрировал терминал yc. Запросил на будущее NAT как сервис, если не надут - сделаю отдельную машину, чтобы не плодить внишние айпишники.<br>
 
-Создал ключ
-om@play-box:~$ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/home/om/.ssh/id_rsa): sshtest
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in sshtest
-Your public key has been saved in sshtest.pub
-The key fingerprint is:
-SHA256:2Tx81Da7BbDq1eu8l6EZckIr9wUCFLKHF+cncIhdYq8 om@play-box.chilikin.pro
-The key's randomart image is:
-+---[RSA 3072]----+
-|       .+B++.    |
-|       .=+O  +   |
-|       o o.+o.=  |
-|        o=.=o+ + |
-|        SEB = + .|
-|         o O o * |
-|          + = B o|
-|             * ..|
-|              +o |
-+----[SHA256]-----+
+Создал ключ<br>
+om@play-box:~$ ssh-keygen -t rsa<br>
+Generating public/private rsa key pair.<br>
+Enter file in which to save the key (/home/om/.ssh/id_rsa): sshtest<br>
+Enter passphrase (empty for no passphrase):<br>
+Enter same passphrase again:<br>
+Your identification has been saved in sshtest<br>
+Your public key has been saved in sshtest.pub<br>
+The key fingerprint is:<br>
+SHA256:2Tx81Da7BbDq1eu8l6EZckIr9wUCFLKHF+cncIhdYq8 om@play-box.chilikin.pro<br>
+The key's randomart image is:<br>
++---[RSA 3072]----+<br>
+|       .+B++.    |<br>
+|       .=+O  +   |<br>
+|       o o.+o.=  |<br>
+|        o=.=o+ + |<br>
+|        SEB = + .|<br>
+|         o O o * |<br>
+|          + = B o|<br>
+|             * ..|<br>
+|              +o |<br>
++----[SHA256]-----+<br>
 
-Добавил к себе:
-om@play-box:~$ ssh-add sshtest
+Добавил к себе:<br>
+om@play-box:~$ ssh-add sshtest<br>
 Identity added: sshtest (om@play-box.chilikin.pro)
  - добавить свой ssh ключ в GCE metadata
 
@@ -41,12 +41,12 @@ Identity added: sshtest (om@play-box.chilikin.pro)
  - зайти удаленным ssh (первая сессия), не забывайте про ssh-add
 
 Смотрим список виртуалок:<br>
-om@play-box:~$ yc vpc network list
-+----------------------+---------+
-|          ID          |  NAME   |
-+----------------------+---------+
-| enpkmjl6cgerir1bmqb2 | default |
-+----------------------+---------+
+om@play-box:~$ yc vpc network list<br>
++----------------------+---------+<br>
+|          ID          |  NAME   |<br>
++----------------------+---------+<br>
+| enpkmjl6cgerir1bmqb2 | default |<br>
++----------------------+---------+<br>
 
  - поставить PostgreSQL
  - зайти вторым ssh (вторая сессия)
