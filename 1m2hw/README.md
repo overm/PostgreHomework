@@ -49,7 +49,7 @@ om@play-box:~$ yc vpc addresses list<br>
 | e9bq5f12m9qviqifer8a |      | 178.154.231.59 | false    | true |<br>
 +----------------------+------+----------------+----------+------+<br>
 
-om@play-box:~$ ssh pavel@178.154.231.59<br>
+om@play-box:$ ssh pavel@178.154.231.59<br>
 Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-96-generic x86_64)<br>
 <br>
  Documentation:  https://help.ubuntu.com<br>
