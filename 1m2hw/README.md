@@ -70,26 +70,134 @@ sudo -u postgres psql
 
  sudo -u postgres psql
  - выключить auto commit
+
+postgres=# \set AUTOCOMMIT OFF<br>
+postgres=#
+
  - сделать в первой сессии новую таблицу и наполнить ее данными create table persons(id serial, first_name text, second_name text); insert into persons(first_name, second_name) values('ivan', 'ivanov'); insert into persons(first_name, second_name) values('petr', 'petrov'); commit;
+
+postgres=#  create table persons(id serial, first_name text, second_name text); insert into persons(first_name, second_name) values('ivan', 'ivanov'); insert into persons(first_name, second_name) values('petr', 'petrov'); commit;<BR>
+CREATE TABLE<BR>
+INSERT 0 1<BR>
+INSERT 0 1<BR>
+COMMIT<BR>
+
  - посмотреть текущий уровень изоляции: show transaction isolation level
+ 
+postgres=# show transaction isolation level<BR>
+postgres-# ;<BR>
+ transaction_isolation<BR>
+-----------------------<BR>
+ read committed<BR>
+(1 row)<BR>
+
  - начать новую транзакцию в обоих сессиях с дефолтным (не меняя) уровнем изоляции
+
+postgres=# BEGIN;<BR>
+BEGIN
+
  - в первой сессии добавить новую запись insert into persons(first_name, second_name) values('sergey', 'sergeev');
+
+postgres=# insert into persons(first_name, second_name) values('sergey', 'sergeev');<BR>
+INSERT 0 1
+
  - сделать select * from persons во второй сессии
+ 
+ postgres=# select * from persons;<BR>
+ id | first_name | second_name<BR>
+----+------------+-------------<BR>
+  1 | ivan       | ivanov<BR>
+  2 | petr       | petrov<BR>
+(2 rows)
+
  - видите ли вы новую запись и если да то почему?
+ 
+Не видим, так как первая транзакция не закммитчена, а в режиме read-committed видим только закомитченные данные.
  - завершить первую транзакцию - commit;
+
+postgres=# commit;<BR>
+COMMIT
+
  - сделать select * from persons во второй сессии
+ 
+postgres=# select * from persons;<BR>
+ id | first_name | second_name<BR>
+----+------------+-------------<BR>
+  1 | ivan       | ivanov<BR>
+  2 | petr       | petrov<BR>
+  3 | sergey     | sergeev<BR>
+(3 rows)<BR>
+
  - видите ли вы новую запись и если да то почему?
+ 
+Видим, так как транзакция закомитчена.
  - завершите транзакцию во второй сессии
+
+postgres=# commit;<BR>
+COMMIT
+
  - начать новые но уже repeatable read транзации - set transaction isolation level repeatable read;
+
+postgres=# commit;<BR>
+COMMIT<BR>
+postgres=# set transaction isolation level repeatable read;<BR>
+SET<BR>
+
  - в первой сессии добавить новую запись insert into persons(first_name, second_name) values('sveta', 'svetova');
+
+postgres=# insert into persons(first_name, second_name) values('sveta', 'svetova');<BR>
+INSERT 0 1
+
  - сделать select * from persons во второй сессии
+
+postgres=# select * from persons;<BR>
+ id | first_name | second_name<BR>
+----+------------+-------------<BR>
+  1 | ivan       | ivanov<BR>
+  2 | petr       | petrov<BR>
+  3 | sergey     | sergeev<BR>
+(3 rows)<BR>
+
  - видите ли вы новую запись и если да то почему?
+
+ Нет, так как мы видим состояние базы на момент начала транзации.
  - завершить первую транзакцию - commit;
+ 
+postgres=# commit;<BR>
+COMMIT
+
  - сделать select * from persons во второй сессии
+ 
+postgres=# select * from persons;<BR>
+ id | first_name | second_name<BR>
+----+------------+-------------<BR>
+  1 | ivan       | ivanov<BR>
+  2 | petr       | petrov<BR>
+  3 | sergey     | sergeev<BR>
+(3 rows)
+
  - видите ли вы новую запись и если да то почему?
+ 
+ Нет, так как мы видим состояние базы на момент начала транзации.
  - завершить вторую транзакцию
+ 
+postgres=# commit;<BR>
+COMMIT
+ 
  - сделать select * from persons во второй сессии
+ 
+postgres=# select * from persons;<BR>
+ id | first_name | second_name<BR>
+----+------------+-------------<BR>
+  1 | ivan       | ivanov<BR>
+  2 | petr       | petrov<BR>
+  3 | sergey     | sergeev<BR>
+  6 | sveta      | svetova<BR>
+(4 rows)<BR>
+
  - видите ли вы новую запись и если да то почему? ДЗ сдаем в виде миниотчета в markdown в гите
+ 
+Да, так как на момент начала транзакции запись уже закоммитчена, да и вид изоляции сбросился
 
 
 
