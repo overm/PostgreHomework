@@ -6,10 +6,48 @@
 
 Добавил пользователя  ifti@yandex.ru с ролью viwer.
  - далее создать инстанс виртуальной машины Compute Engine с дефолтными параметрами
+Создал через веб-морду sshtest
+Установил и заргистрировал терминал yc. Запросил на будущее NAT как сервис, если не надут - сделаю отдельную машину, чтобы не плодить внишние айпишники.
 
-Установил и заргистрировал терминал yc. Запросил на будущее NAT как сервис, если не надут - сделаю отдельную машину, чтобы не плодить внишние айпишник.
+Создал ключ
+om@play-box:~$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/om/.ssh/id_rsa): sshtest
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in sshtest
+Your public key has been saved in sshtest.pub
+The key fingerprint is:
+SHA256:2Tx81Da7BbDq1eu8l6EZckIr9wUCFLKHF+cncIhdYq8 om@play-box.chilikin.pro
+The key's randomart image is:
++---[RSA 3072]----+
+|       .+B++.    |
+|       .=+O  +   |
+|       o o.+o.=  |
+|        o=.=o+ + |
+|        SEB = + .|
+|         o O o * |
+|          + = B o|
+|             * ..|
+|              +o |
++----[SHA256]-----+
+
+Добавил к себе:
+om@play-box:~$ ssh-add sshtest
+Identity added: sshtest (om@play-box.chilikin.pro)
+
+
  - добавить свой ssh ключ в GCE metadata
+При создании виртуалки указал в окошке
  - зайти удаленным ssh (первая сессия), не забывайте про ssh-add
+Смотрим список виртуалок:
+om@play-box:~$ yc vpc network list
++----------------------+---------+
+|          ID          |  NAME   |
++----------------------+---------+
+| enpkmjl6cgerir1bmqb2 | default |
++----------------------+---------+
+
  - поставить PostgreSQL
  - зайти вторым ssh (вторая сессия)
  - запустить везде psql из под пользователя postgres
