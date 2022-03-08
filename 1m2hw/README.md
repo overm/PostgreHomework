@@ -34,7 +34,7 @@ The key's randomart image is:<br>
 +----[SHA256]-----+<br>
 
 Добавил к себе:<br>
-om@play-box:~$ ssh-add sshtest<br>
+om@play-box:$ ssh-add sshtest<br>
 Identity added: sshtest (om@play-box.chilikin.pro)
  - добавить свой ssh ключ в GCE metadata
 
