@@ -41,12 +41,20 @@ Identity added: sshtest (om@play-box.chilikin.pro)
  - зайти удаленным ssh (первая сессия), не забывайте про ssh-add
 
 Смотрим список виртуалок:<br>
-om@play-box:~$ yc vpc network list<br>
-+----------------------+---------+<br>
-|          ID          |  NAME   |<br>
-+----------------------+---------+<br>
-| enpkmjl6cgerir1bmqb2 | default |<br>
-+----------------------+---------+<br>
+om@play-box:~$ yc vpc addresses list<br>
++----------------------+------+----------------+----------+------+<br>
+|          ID          | NAME |    ADDRESS     | RESERVED | USED |<br>
++----------------------+------+----------------+----------+------+<br>
+| e9bq5f12m9qviqifer8a |      | 178.154.231.59 | false    | true |<br>
++----------------------+------+----------------+----------+------+<br>
+
+om@play-box:~$ ssh pavel@178.154.231.59<br>
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-96-generic x86_64)<br>
+<br>
+ * Documentation:  https://help.ubuntu.com<br>
+ * Management:     https://landscape.canonical.com<br>
+ * Support:        https://ubuntu.com/advantage<br>
+pavel@sshtest:~$
 
  - поставить PostgreSQL
  - зайти вторым ssh (вторая сессия)
