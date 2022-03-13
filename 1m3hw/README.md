@@ -24,8 +24,8 @@
 - развернуть контейнер с клиентом postgres
  
  Нашёл контейнер с клиентов, 12 - но работает:<BR>
- sudo docker run -it --rm jbergknoff/postgresql-client postgresql://postgres:njsdkjnfskjdnfASD123@178.154.229.112:5432/stage 
-- подключится из контейнера с клиентом к контейнеру с сервером и сделать таблицу с парой строк
+ sudo docker run -it --rm jbergknoff/postgresql-client postgresql://postgres:*******@178.154.229.112:5432/stage 
+- подключиться из контейнера с клиентом к контейнеру с сервером и сделать таблицу с парой строк
 
  Unable to find image 'jbergknoff/postgresql-client:latest' locally<BR>
 latest: Pulling from jbergknoff/postgresql-client<BR>
@@ -46,6 +46,7 @@ stage=# insert into t1 values(2);<BR>
 INSERT 0 1<BR>
 
 - подключится к контейнеру с сервером с ноутбука/компьютера извне инстансов GCP
+
 Тут бы конечно SSL бы не помешал, ну да ладно.<BR>
 sudo apt install postgresql-client-common postgresql-client-12<BR>
 psql -h 178.154.229.112 -d stage -U postgres<BR>
@@ -63,7 +64,39 @@ stage=# select * from t1;<BR>
 (2 rows)<BR>
 
 - удалить контейнер с сервером
+
+pavel@postgre:~$ sudo docker container ls<BR>
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                                       NAMES<BR>
+8108fcc664e1   postgres:14   "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pavel_pg_db_1<BR>
+pavel@postgre:~$ sudo docker rm pavel_pg_db_1<BR>
+Error response from daemon: You cannot remove a running container 8108fcc664e121d3ca061bd0ddf99b44a5b759f91708c6d39cd0643fa3f970bb. Stop the container before attempting removal or force remove<BR>
+pavel@postgre:~$ sudo docker stop pavel_pg_db_1<BR>
+pavel_pg_db_1<BR>
+pavel@postgre:~$ sudo docker rm pavel_pg_db_1<BR>
+pavel_pg_db_1<BR>
+
 - создать его заново
+ 
+pavel@postgre:~$ sudo docker-compose up -d<BR>
+Creating pavel_pg_db_1 ... done
 - подключится снова из контейнера с клиентом к контейнеру с сервером
+ 
+ psql -h 178.154.229.112 -d stage -U postgres<BR>
+Password for user postgres:<BR>
+psql (12.9 (Ubuntu 12.9-0ubuntu0.20.04.1), server 14.2 (Debian 14.2-1.pgdg110+1))<BR>
+WARNING: psql major version 12, server major version 14.<BR>
+         Some psql features might not work.<BR>
+Type "help" for help.<BR>
+
+
 - проверить, что данные остались на месте
+stage=# select * from t1;<BR>
+ a<BR>
+---<BR>
+ 1<BR>
+ 2<BR>
+(2 rows)<BR>
+
 - оставляйте в ЛК ДЗ комментарии что и как вы делали и как боролись с проблемами
+
+ Да особо никаких проблем не было, на яндексе даже с портом возиться не пришлось.
