@@ -65,19 +65,19 @@ stage=# select * from t1;<BR>
 
 - удалить контейнер с сервером
 
-pavel@postgre:~$ sudo docker container ls<BR>
+pavel@postgre:~ $ sudo docker container ls<BR>
 CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                                       NAMES<BR>
 8108fcc664e1   postgres:14   "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pavel_pg_db_1<BR>
-pavel@postgre:~$ sudo docker rm pavel_pg_db_1<BR>
+pavel@postgre:~ $ sudo docker rm pavel_pg_db_1<BR>
 Error response from daemon: You cannot remove a running container 8108fcc664e121d3ca061bd0ddf99b44a5b759f91708c6d39cd0643fa3f970bb. Stop the container before attempting removal or force remove<BR>
-pavel@postgre:~$ sudo docker stop pavel_pg_db_1<BR>
+pavel@postgre:~ $ sudo docker stop pavel_pg_db_1<BR>
 pavel_pg_db_1<BR>
-pavel@postgre:~$ sudo docker rm pavel_pg_db_1<BR>
+pavel@postgre:~ $ sudo docker rm pavel_pg_db_1<BR>
 pavel_pg_db_1<BR>
 
 - создать его заново
  
-pavel@postgre:~$ sudo docker-compose up -d<BR>
+pavel@postgre:~ $ sudo docker-compose up -d<BR>
 Creating pavel_pg_db_1 ... done
 - подключится снова из контейнера с клиентом к контейнеру с сервером
  
