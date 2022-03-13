@@ -1,6 +1,6 @@
 - сделать в GCE инстанс с Ubuntu 20.04
 
-Создал виртуалку на Yandex Cloud - Ubuntu 20, при создании указал ключ<BR>
+Создал виртуалку на Yandex Cloud - Ubuntu 20, при создании указал прошлый ключ<BR>
  yc vpc addresses list<BR>
 +----------------------+------+-----------------+----------+------+<BR>
 |          ID          | NAME |     ADDRESS     | RESERVED | USED |<BR>
