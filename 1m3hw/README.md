@@ -81,16 +81,18 @@ pavel@postgre:~$ sudo docker-compose up -d<BR>
 Creating pavel_pg_db_1 ... done
 - подключится снова из контейнера с клиентом к контейнеру с сервером
  
- psql -h 178.154.229.112 -d stage -U postgres<BR>
-Password for user postgres:<BR>
-psql (12.9 (Ubuntu 12.9-0ubuntu0.20.04.1), server 14.2 (Debian 14.2-1.pgdg110+1))<BR>
+sudo docker run -it --rm jbergknoff/postgresql-client postgresql://postgres:njsdkjnfskjdnfASD123@178.154.229.112:5432/stage<BR>
+psql (12.3, server 14.2 (Debian 14.2-1.pgdg110+1))<BR>
 WARNING: psql major version 12, server major version 14.<BR>
          Some psql features might not work.<BR>
 Type "help" for help.<BR>
+<BR>
+stage=# <BR>
 
 
 - проверить, что данные остались на месте
-stage=# select * from t1;<BR>
+
+ stage=# select * from t1;<BR>
  a<BR>
 ---<BR>
  1<BR>
