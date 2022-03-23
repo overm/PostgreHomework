@@ -139,11 +139,11 @@ postgres=# select * from t1;<BR>
  sudo chown postgres:postgres /mnt/data/<BR>
  sudo pg_ctlcluster 12 main stop<BR>
  sudo nano /etc/postgresql/12/main/postgresql.conf<BR>
- pavel@gp2-1m6hw:~$ cat  /etc/postgresql/12/main/postgresql.conf | grep data_directory<BR>
+ pavel@gp2-1m6hw: ~ $ cat  /etc/postgresql/12/main/postgresql.conf | grep data_directory<BR>
 data_directory = '/mnt/data/12/main'            # use data in another directory<BR>
  sudo -u postgres pg_ctlcluster 12 main start<BR>
  sudo -u postgres psql<BR>
- pavel@gp2-1m6hw:~$ sudo -u postgres psql<BR>
+ pavel@gp2-1m6hw: ~ $ sudo -u postgres psql<BR>
 psql (12.9 (Ubuntu 12.9-0ubuntu0.20.04.1))<BR>
 Type "help" for help.<BR>
 <BR>
