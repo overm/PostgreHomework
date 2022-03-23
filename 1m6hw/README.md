@@ -70,6 +70,7 @@ sudo mkdir data<BR>
  отредактировал sudo nano /etc/fstab 
  - перезагрузите инстанс и убедитесь, что диск остается примонтированным (если не так смотрим в сторону fstab)
 
+ После рестарта:<BR>
  pavel@gp1-1m6hw:~$ mount | grep mnt<BR>
 /dev/vdb on /mnt/data type ext4 (rw,relatime)
 
