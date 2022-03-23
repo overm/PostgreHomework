@@ -62,7 +62,7 @@ Writing inode tables: done<BR>
 Creating journal (32768 blocks): done<BR>
 Writing superblocks and filesystem accounting information: done<BR>
 <BR>
-cd /mnt/sudo<BR>
+cd /mnt<BR>
 sudo mkdir data<BR>
  sudo mount /dev/vdb /mnt/data/<BR>
  sudo chown postgres:postgres /mnt/data/<BR>
