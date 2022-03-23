@@ -49,7 +49,7 @@ vda    252:0    0  15G  0 disk<BR>
 vdb    252:16   0  20G  0 disk<BR>
 
  
- pavel@gp1-1m6hw:~$ sudo mkfs.ext4 /dev/vdb1<BR>
+ pavel@gp1-1m6hw: ~ $ sudo mkfs.ext4 /dev/vdb1<BR>
 mke2fs 1.45.5 (07-Jan-2020)<BR>
 The file /dev/vdb1 does not exist and no size was specified.<BR>
 pavel@gp1-1m6hw:~$ sudo mkfs.ext4 /dev/vdb<BR>
@@ -99,7 +99,7 @@ Error: /var/lib/postgresql/12/main is not accessible or does not exist
 data_directory = '/var/lib/postgresql/12/main'          # use data in another directory<BR>
  стало<BR>
  pavel@gp1-1m6hw:/etc/postgresql/12/main$ cat  postgresql.conf | grep data_directory<BR>
-data_directory = '/mnt/data/12/main/'           # use data in another directory<BR>
+data_directory = '/mnt/data/12/main'           # use data in another directory<BR>
 
 
  - напишите что и почему поменяли
@@ -131,3 +131,27 @@ postgres=# select * from t1;<BR>
 
  
  - задание со звездочкой *: не удаляя существующий GCE инстанс сделайте новый, поставьте на его PostgreSQL, удалите файлы с данными из /var/lib/postgres, перемонтируйте внешний диск который сделали ранее от первой виртуальной машины ко второй и запустите PostgreSQL на второй машине так чтобы он работал с данными на внешнем диске, расскажите как вы это сделали и что в итоге получилось.
+
+ Создал gp2-1m6hw<BR>
+ Оставновил первую виртуалку<BR>
+ Переподсоединил диск ко второй<BR>
+ Установил PG sudo apt install postgresql postgresql-contrib<BR>
+  sudo mkdir /mnt/data<BR>
+ sudo mount /dev/vdb /mnt/data/<BR>
+ sudo chown postgres:postgres /mnt/data/<BR>
+ sudo pg_ctlcluster 12 main stop<BR>
+ sudo nano /etc/postgresql/12/main/postgresql.conf<BR>
+ pavel@gp2-1m6hw:~$ cat  /etc/postgresql/12/main/postgresql.conf | grep data_directory<BR>
+data_directory = '/mnt/data/12/main'            # use data in another directory<BR>
+ sudo -u postgres pg_ctlcluster 12 main start<BR>
+ sudo -u postgres psql<BR>
+ pavel@gp2-1m6hw:~$ sudo -u postgres psql<BR>
+psql (12.9 (Ubuntu 12.9-0ubuntu0.20.04.1))<BR>
+Type "help" for help.<BR>
+<BR>
+postgres=# select * from t1;<BR>
+ a<BR>
+---<BR>
+ 1<BR>
+ 2<BR>
+(2 rows)<BR>
