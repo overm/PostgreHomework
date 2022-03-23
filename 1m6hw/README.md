@@ -49,9 +49,6 @@ vda    252:0    0  15G  0 disk<BR>
 vdb    252:16   0  20G  0 disk<BR>
 
  
- pavel@gp1-1m6hw: ~ $ sudo mkfs.ext4 /dev/vdb1<BR>
-mke2fs 1.45.5 (07-Jan-2020)<BR>
-The file /dev/vdb1 does not exist and no size was specified.<BR>
 pavel@gp1-1m6hw:~$ sudo mkfs.ext4 /dev/vdb<BR>
 mke2fs 1.45.5 (07-Jan-2020)<BR>
 Creating filesystem with 5242880 4k blocks and 1310720 inodes<BR>
