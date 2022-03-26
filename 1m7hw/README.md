@@ -157,7 +157,7 @@ ERROR:  permission denied for relation t1
  
  - как сделать так чтобы такое больше не повторялось? если нет идей - смотрите шпаргалку
  
-testdb=# ALTER default privileges in SCHEMA testnm grant SELECT on TABLEs to readonly;
+testdb=# ALTER default privileges in SCHEMA testnm grant SELECT on TABLEs to readonly;<BR>
 ALTER DEFAULT PRIVILEGES
 
  
