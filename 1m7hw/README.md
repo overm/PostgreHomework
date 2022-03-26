@@ -181,7 +181,7 @@ GRANT
  
  - сделайте select * from testnm.t1;
  
-testdb=> select * from testnm.t1;
+testdb = > select * from testnm.t1;
  c1
 ----
   1
