@@ -183,7 +183,7 @@ GRANT
  
 testdb=> select * from testnm.t1;
  c1
--- --
+- - - -
   1
 (1 row)
  
