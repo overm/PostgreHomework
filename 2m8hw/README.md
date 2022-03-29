@@ -54,5 +54,10 @@ done in 2.01 s (drop tables 0.00 s, create tables 0.01 s, client-side generate 1
  - запустить pgbench -c8 -P 60 -T 3600 -U postgres postgres
  - дать отработать до конца
  - зафиксировать среднее значение tps в последней ⅙ части работы
+ 
+ Excel сказал 581б29<BR>
+ ![image](https://user-images.githubusercontent.com/16693077/160692170-388dbb7d-d4b3-41bc-bcc2-2385df68ee50.png)
+
+ 
  - а дальше настроить autovacuum максимально эффективно
  - так чтобы получить максимально ровное значение tps на горизонте часа
