@@ -117,3 +117,48 @@ tps = 6364.189565 (excluding connections establishing)
 Разница более чем в 10 раз. Круто!
 
  - Создайте новый кластер с включенной контрольной суммой страниц. Создайте таблицу. Вставьте несколько значений. Выключите кластер. Измените пару байт в таблице. Включите кластер и сделайте выборку из таблицы. Что и почему произошло? как проигнорировать ошибку и продолжить работу?
+
+Включим контрольные суммы
+``` console
+postgres@m2hw8:~/13/main$ /usr/lib/postgresql/13/bin/pg_checksums --enable -D "/var/lib/postgresql/13/main"
+Checksum operation completed
+Files scanned:  931
+Blocks scanned: 7559
+pg_checksums: syncing data directory
+pg_checksums: updating control file
+Checksums enabled in cluster
+```
+
+``` sql
+postgres=# select * from qwe;
+  a  |                                                  b
+-----+-----------------------------------------------------------------------------------------------------
+ 111 | asdddddddddddddddddddasssssssssssssssssddddddddddddddddddddxcccccccccccccccccccccccxcssssssssssssss
+ 121 | asdddddddddddddddddddasssssssssssssssssddddddddddddddddddddxcccccccccccccccccccccccxcssssssssssssss
+ 131 | asdddddddddddddddddddasssssssssssssssssddddddddddddddddddddxcccccccccccccccccccccccxcssssssssssssss
+(3 rows)
+
+postgres=# SELECT pg_relation_filepath('qwe');
+ pg_relation_filepath
+----------------------
+ base/13448/18296
+(1 row)
+```
+
+Измнил файл после остановки кластера:
+``` sql
+postgres=# select * from qwe;
+WARNING:  page verification failed, calculated checksum 11021 but expected 34682
+ERROR:  invalid page in block 0 of relation base/13448/18296
+
+postgres=# SET ignore_checksum_failure = on;
+SET
+postgres=# select * from qwe;
+WARNING:  page verification failed, calculated checksum 11021 but expected 34682
+  a  |                                                  b
+-----+-----------------------------------------------------------------------------------------------------
+ 111 | asdddddddddddddddddddasssssssssssssssssdddddddddgdgddddddddxcccccccccccccccccccccccxcssssssssssssss
+ 121 | asdddddddddddddddddddasssssssssssssssssddddddddddddddddddddxcccccccccccccccccccccccxcssssssssssssss
+ 131 | asdddddddddddddddddddasssssssssssssssssddddddddddddddddddddxcccccccccccccccccccccccxcssssssssssssss
+(3 rows)
+```
