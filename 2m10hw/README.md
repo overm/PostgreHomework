@@ -196,6 +196,7 @@ CONTEXT:  while updating tuple (0,1) in relation "qwe"
 2022-04-09 19:27:56.983 UTC [956] postgres@postgres CONTEXT:  while updating tuple (0,3) in relation "qwe"
 2022-04-09 19:27:56.983 UTC [956] postgres@postgres STATEMENT:  update qwe set b='dfg' where a=3;
 ```
+Ну примерно всё то же самое: 952 стала ждать 956. Ту стала ждать 960, а потом потом 960 попыталась встать в очередь в 952 со всемивытекающими дедлоками.
 
  - Могут ли две транзакции, выполняющие единственную команду UPDATE одной и той же таблицы (без where), заблокировать друг друга?
 
