@@ -57,13 +57,13 @@ Initializing worker threads...
 ``` console
 SQL statistics:
     queries performed:
-        read:                            59248
-        write:                           61726
-        other:                           9196
-        total:                           130170
-    transactions:                        4552   <br>(73.34 per sec.)<br>
-    queries:                             130170 (2097.23 per sec.)
-    ignored errors:                      34     (0.55 per sec.)
+        read:                            278914
+        write:                           289077
+        other:                           43198
+        total:                           611189
+    transactions:                        21515  (71.30 per sec.)
+    queries:                             611189 (2025.51 per sec.)
+    ignored errors:                      149    (0.49 per sec.)
     reconnects:                          0      (0.00 per sec.)
 ```
 
@@ -75,3 +75,62 @@ Tasks: 398 total,   1 running, 397 sleeping,   0 stopped,   0 zombie
 MiB Mem :  64314.6 total,  50782.5 free,    474.7 used,  13057.4 buff/cache
 MiB Swap:      0.0 total,      0.0 free,      0.0 used.  62985.1 avail Mem
 ```
+Пока 71.3 tps
+
+- Попытка 2
+
+Берём базовые настройки pgtune
+```
+max_connections = 30
+shared_buffers = 16GB
+effective_cache_size = 48GB
+maintenance_work_mem = 2GB
+checkpoint_completion_target = 0.9
+wal_buffers = 16MB
+default_statistics_target = 100
+random_page_cost = 1.1
+effective_io_concurrency = 200
+work_mem = 69905kB
+min_wal_size = 1GB
+max_wal_size = 4GB
+max_worker_processes = 32
+max_parallel_workers_per_gather = 4
+max_parallel_workers = 32
+max_parallel_maintenance_workers = 4
+```
+
+Смотрим результаты:
+```
+SQL statistics:
+    queries performed:
+        read:                            348468
+        write:                           361291
+        other:                           54022
+        total:                           763781
+    transactions:                        26894  (89.28 per sec.)
+    queries:                             763781 (2535.42 per sec.)
+    ignored errors:                      203    (0.67 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+```
+
+
+Увы ресурсы всё равно простаивают
+```
+top - 18:48:05 up 43 min,  2 users,  load average: 23.43, 17.08, 11.70
+Tasks: 401 total,   1 running, 400 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.0 us,  0.6 sy,  0.0 ni, 39.1 id, 59.1 wa,  0.0 hi,  0.1 si,  0.0 st
+MiB Mem :  64314.6 total,  38895.3 free,    802.0 used,  24617.3 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.  56986.4 avail Mem
+```
+
+Результат немного подрос 89.28tps
+
+
+Я посмотрел на монитор и, судя по всему, нашёл узкое горлышко:
+![image](https://user-images.githubusercontent.com/16693077/163033463-d55ef695-4810-4437-b051-4db0102891ea.png)
+На 160ГБ SSD доступно порядка 65МБ/с. То есть скоррее всего мы упрёлись в потолок по IO.
+
+
+ - Попытка 3
+
+Пойдём по хардкору, в качестве хрранилища сделаем RAM-disk, на виртуалке никак не обойдём ограничение на бесплатном аккаунте по IO.
