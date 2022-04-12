@@ -79,7 +79,7 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.  62985.1 avail Mem
 
 - Попытка 2
 
-Берём базовые настройки pgtune
+Берём базовые настройки pgtune и немного автовакуум подправил
 ```
 max_connections = 30
 shared_buffers = 16GB
@@ -133,4 +133,63 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used.  56986.4 avail Mem
 
  - Попытка 3
 
-Пойдём по хардкору, в качестве хрранилища сделаем RAM-disk, на виртуалке никак не обойдём ограничение на бесплатном аккаунте по IO.
+Пойдём по хардкору, в качестве хрранилища сделаем RAM-disk, иначе на виртуалке никак не обойдём ограничение на бесплатном аккаунте по IO.
+Сделал рамдиск, скопировал данные, настроил гранты, перенацелил в конфиге:
+``` console
+pavel@hw12:/etc/postgresql/14/main/myconf$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev             63G     0   63G   0% /dev
+tmpfs            13G  904K   13G   1% /run
+/dev/vda2       158G  109G   43G  73% /
+tmpfs            63G     0   63G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs            63G     0   63G   0% /sys/fs/cgroup
+tmpfs            13G     0   13G   0% /run/user/1000
+tmpfs           118G  106G   13G  90% /var/lib/postgresql/14/rammain
+```
+Ещё я в 2 раз уменьшил random_page_cost = 1.05
+
+
+
+Совсем другая история по ресурсам, хотя и не по памяти, но по процессору
+```
+top - 20:16:27 up  1:12,  2 users,  load average: 13.74, 3.94, 2.43
+Tasks: 396 total,  26 running, 370 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 64.2 us, 13.6 sy,  0.0 ni, 15.4 id,  0.0 wa,  0.0 hi,  6.7 si,  0.0 st
+MiB Mem : 128826.6 total,    738.4 free,   1508.7 used, 126579.4 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.    313.8 avail Mem
+```
+
+``` console
+SQL statistics:
+    queries performed:
+        read:                            1107386
+        write:                           1148504
+        other:                           172158
+        total:                           2428048
+    transactions:                        85745  (4280.75 per sec.)
+    queries:                             2428048 (121218.42 per sec.)
+    ignored errors:                      662    (33.05 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+```
+
+4280tps!!!! Более чем в 60 раз от изначалной конфигурации.
+
+- Попытка 4
+
+Ну и в заключение включим асинхронный режим
+
+``` console
+SQL statistics:
+    queries performed:
+        read:                            1111085
+        write:                           1153191
+        other:                           171586
+        total:                           2435862
+    transactions:                        85468  (4266.01 per sec.)
+    queries:                             2435862 (121582.38 per sec.)
+    ignored errors:                      678    (33.84 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+```
+Существенных изменений не увидели, видимо тут уже упираемся в шину процессор-память.
+4266.01tps
