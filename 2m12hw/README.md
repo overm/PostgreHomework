@@ -35,9 +35,8 @@ sysbench 1.0.20
  - написать какого значения tps удалось достичь, показать какие параметры в
 какие значения устанавливали и почему
 
- - Попытка 1
-
-Итак на на маленьком КТС с 2 ядрами 2 ГБ с дефалтовым настройками:
+ 
+Итак на на маленьком КТС с 2 ядрами 2 ГБ с дефалтовым настройками попытался заполнить данными:
 ```
 ./tpcc.lua --pgsql-user=postgres --pgsql-db=sbtest --time=120 --threads=5 --report-interval=1 --tables=10 --scale=100  --pgsql-password=*** --db-driver=pgsql prepare
 sysbench 1.0.20 (using bundled LuaJIT 2.1.0-beta2)
@@ -46,15 +45,33 @@ Initializing worker threads...
 ...
 ```
 
-Не дождался, всё было очень медленно. Срубил, остановил машину, нарастил ресурсов.
+Не дождался, всё было очень медленно. Срубил, остановил машину, нарастил ресурсов. Сделал 50 сессий. Дождался.
 
- - Попытка 2
+ - Попытка 1
 
-Запустил поновой. С дефолтными настройками процессор и память почти по нулям:
+Настройки по умолчанию. Перед основным прогоном делаю минутный прогон, чтобы заполнить все кэши. Основная команда тестирования:
 ```
-top - 22:07:44 up 2 min,  2 users,  load average: 1.56, 0.59, 0.22
-Tasks: 396 total,   8 running, 388 sleeping,   0 stopped,   0 zombie
-%Cpu(s): 11.4 us,  1.7 sy,  0.0 ni, 86.0 id,  0.9 wa,  0.0 hi,  0.0 si,  0.0 st
-MiB Mem :  64314.6 total,  61777.5 free,    501.9 used,   2035.2 buff/cache
-MiB Swap:      0.0 total,      0.0 free,      0.0 used.  63038.2 avail Mem
+./tpcc.lua --pgsql-user=postgres --pgsql-db=sbtest --time=300 --threads=30 --report-interval=1 --tables=10 --scale=100  --pgsql-password=dsvcjndsucidsu8sd --db-driver=pgsql run
+```
+
+``` console
+SQL statistics:
+    queries performed:
+        read:                            59248
+        write:                           61726
+        other:                           9196
+        total:                           130170
+    transactions:                        4552   <br>(73.34 per sec.)<br>
+    queries:                             130170 (2097.23 per sec.)
+    ignored errors:                      34     (0.55 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+```
+
+ресурсы пустые
+```
+top - 18:37:42 up 32 min,  2 users,  load average: 22.70, 9.81, 5.35
+Tasks: 398 total,   1 running, 397 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.2 us,  0.4 sy,  0.0 ni, 29.0 id, 69.2 wa,  0.0 hi,  0.1 si,  0.1 st
+MiB Mem :  64314.6 total,  50782.5 free,    474.7 used,  13057.4 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.  62985.1 avail Mem
 ```
