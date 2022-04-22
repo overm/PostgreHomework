@@ -36,12 +36,14 @@ postgres-# PUBLICATION test_pub WITH (copy_data = true);
 NOTICE:  created replication slot "test_sub" on publisher
 CREATE SUBSCRIPTION
  ```
+ 
  ```
  postgres=# CREATE SUBSCRIPTION test_sub
 postgres-# CONNECTION 'host=10.129.0.20 port=5432 user=repl password=*** dbname=postgres'
 postgres-# PUBLICATION test_pub WITH (copy_data = true);
 NOTICE:  created replication slot "test_sub" on publisher
 CREATE SUBSCRIPTION
+```
 ```
 postgres=# CREATE SUBSCRIPTION test_sub1
 postgres-# CONNECTION 'host=10.129.0.20 port=5432 user=repl password=jsfnxncdsnfsnDSNFj3dj dbname=postgres'
