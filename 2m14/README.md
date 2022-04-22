@@ -15,7 +15,7 @@ psql -h 10.129.0.20 -U repl -d postgres
 ```
 
 Первые 2 машины перевёл в ALTER SYSTEM SET wal_level = logical;<BR>
- Создали таблички и публикацию (на второй машине test2):
+ Создали таблички и публикации (на второй машине test2):
  ```
  postgres=# create table test(a int);
 CREATE TABLE
