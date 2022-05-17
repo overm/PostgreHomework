@@ -1,4 +1,4 @@
-Вернулся снова своему инстансу GreenPlum, настроил подключениес DataGrip. Попробую домашку выполнить на нём.
+Вернулся снова к своему инстансу GreenPlum, настроил подключениес DataGrip. Попробую домашку выполнить на нём.
 
 h1 Вариант 1
 ==============
@@ -74,9 +74,56 @@ h1 Вариант 2
 ==============
 Есть три таблицы с частично пересекающимися айдишниками, см последний раздел
  - Реализовать прямое соединение двух или более таблиц
+![image](https://user-images.githubusercontent.com/16693077/168920362-a42130b2-f6e3-46b2-a9d4-34fa038cccf6.png)
+
  - Реализовать левостороннее (или правостороннее) соединение двух или более таблиц
+![image](https://user-images.githubusercontent.com/16693077/168920503-0294b879-e4e1-4452-8ca0-dabe26d34d78.png)
+
  - Реализовать кросс соединение двух или более таблиц
+ ![image](https://user-images.githubusercontent.com/16693077/168920685-2cce26a9-a792-439e-94b8-bc392e5455c1.png)
+
  - Реализовать полное соединение двух или более таблиц
- - Реализовать запрос, в котором будут использованы разные типы соединений
+![image](https://user-images.githubusercontent.com/16693077/168921114-8e8f6862-f86a-4c67-8736-6505f47dc700.png)
+
+- Реализовать запрос, в котором будут использованы разные типы соединений
+![image](https://user-images.githubusercontent.com/16693077/168921699-125308be-2639-4e69-ae05-3988722840db.png)
+
  - Сделать комментарии на каждый запрос
+Написал перед каждой картинкой
  - К работе приложить структуру таблиц, для которых выполнялись соединения
+``` sql
+create table my1
+(id integer not null,
+descip varchar
+)
+with (appendoptimized=true)
+distributed by (id)
+;
+
+insert into my1
+SELECT generate_series(1,10) AS id, md5(random()::text) AS descr;
+
+
+create table my2
+(id integer not null,
+descip varchar
+)
+with (appendoptimized=true)
+distributed by (id)
+;
+
+insert into my2
+SELECT generate_series(3,13) AS id, md5(random()::text) AS descr;
+
+
+create table my3
+(id integer not null,
+descip varchar
+)
+with (appendoptimized=true)
+distributed by (id)
+;
+
+insert into my3
+SELECT generate_series(6,16) AS id, md5(random()::text) AS descr;
+```
